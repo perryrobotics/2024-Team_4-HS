@@ -1,0 +1,1 @@
+claw_thread_running  = False
