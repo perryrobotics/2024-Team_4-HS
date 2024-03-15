@@ -1,15 +1,13 @@
-#!/usr/bin/python
 import os, sys
 from Constants import *
 from Sensors import *
 from Movement import *
-
 sys.path.append("/usr/lib")
 import _kipr as KIPR
 
 
 def wait_for_start(port):   
-	#START CALIBRATION WITH LIGHT OFF
+	#mSTART CALIBRATION WITH LIGHT OFF
 	print ("LIGHT OFF NOW!!!.  Press A when light is OFF!")
 	while not KIPR.a_button():
 		off = KIPR.analog(port)
@@ -19,7 +17,7 @@ def wait_for_start(port):
 		print ("BAD CALIBRATION!!!  DO NOT RUN!!!")
 		return False
 	
-	#NOW CLIBRATE WITH LIGHT ON
+	# NOW CLIBRATE WITH LIGHT ON
 	print ("LIGHT ON NOW!!!.  Press B when light is ON")
 	while not KIPR.b_button():
 		on = KIPR.analog(port)
@@ -32,7 +30,7 @@ def wait_for_start(port):
 	print ("TURN LIGHT OFF NOW!!!! PRESS C WHEN READY")
 	while KIPR.c_button()==0:
 		pass
-   	#NOW CALCULATE THE THRESHHOLD VALUE 
+   	# NOW CALCULATE THE THRESHHOLD VALUE 
 	thresh = (off + on)/2
 	if thresh < 1000:
 		print ("BAD CALIBRATION!!!!DO NOT RUN!!!")
