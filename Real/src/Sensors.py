@@ -1,15 +1,14 @@
-#!/usr/bin/python
+# Import all libs
 import os, sys
 from Constants import *
 from Effectors import *
 from Movement import *
 from wait_for_start import *
-
 sys.path.append("/usr/lib")
 import _kipr as KIPR
 
 
-
+# Moves small bot to black line
 def move_to_black(speed, port=LINE_PORT_RIGHT, thresh=THRESH): 
 	KIPR.mav(LMOTOR, speed-LDRIFT)
 	KIPR.mav(RMOTOR, speed-RDRIFT)
@@ -19,7 +18,8 @@ def move_to_black(speed, port=LINE_PORT_RIGHT, thresh=THRESH):
 	KIPR.cmpc(RMOTOR)
 	KIPR.cmpc(LMOTOR)
 	KIPR.msleep(DELAY)
-            
+	
+# Moves small bot from black line to black line
 def back_to_black(speed, port, thresh): 
 	KIPR.mav(LMOTOR, -speed+LDRIFT)
 	KIPR.mav(RMOTOR, -speed+RDRIFT)
@@ -27,7 +27,8 @@ def back_to_black(speed, port, thresh):
 		pass
 	KIPR.ao()
 	KIPR.msleep(DELAY)
-            
+	
+# Moves small bot to white line            
 def move_to_white(speed, port=LINE_PORT_RIGHT, thresh=THRESH): 
 	KIPR.mav(LMOTOR, speed-LDRIFT)
 	KIPR.mav(RMOTOR, speed-RDRIFT)
@@ -38,6 +39,7 @@ def move_to_white(speed, port=LINE_PORT_RIGHT, thresh=THRESH):
 	KIPR.cmpc(LMOTOR)
 	KIPR.msleep(DELAY)
 
+# Moves small bot from black line to white line
 def back_to_white(speed, port, thresh): 
 	KIPR.mav(LMOTOR, -speed+LDRIFT)
 	KIPR.mav(RMOTOR, -speed+RDRIFT)
@@ -46,34 +48,39 @@ def back_to_white(speed, port, thresh):
 	KIPR.ao()
 	KIPR.msleep(DELAY)
 
+# Turns small bot to the right so it can move to a black line
 def right_to_black(speed):
 	KIPR.mav(Lmotor, speed)
 	KIPR.mav(Rmotor, -speed)
 	while KIPR.analog(line_port) < thresh:
 		pass
 	KIPR.ao()   
-            
+	
+# Turns small bot to the left so it can move to a black line
 def left_to_black(speed):
 	KIPR.mav(Lmotor, speed - 100)
 	KIPR.mav(Rmotor, speed)
 	while KIPR.analog(line_port) < thresh:
 		pass
-	KIPR.ao()  
-   
+	KIPR.ao() 
+
+# Turns small bot to the right so it can move to a white line
 def right_to_white(speed):
 	KIPR.mav(Lmotor, speed)
 	KIPR.mav(Rmotor, -speed)
 	while KIPR.analog(line_port) > thresh:
 		pass
 	KIPR.ao()  
-  
+	
+# Turns small bot to the left so it can move to a white line
 def left_to_white(speed):
 	KIPR.mav(Lmotor, -speed)
 	KIPR.mav(Rmotor, speed)
 	while KIPR.analog(line_port) > thresh:
 		pass
 	KIPR.ao()
-#line average
+	
+# Average distance between lines
 def line_average(port,times):
 	line = []
 	del line[:]
@@ -83,7 +90,8 @@ def line_average(port,times):
 		line[0] = line[0]+line.pop(1)
 	line_average = line[0]/times
 	return line_average
-
+	
+# Median distance between lines
 def line_median(port, times):
 	med = []
 	del med[:]
